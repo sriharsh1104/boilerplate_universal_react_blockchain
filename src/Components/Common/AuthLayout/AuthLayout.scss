@@ -1,0 +1,31 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.auth_layout {
+
+    &_inner {
+        padding: 84px 20px 20px 280px;
+        min-height: 100vh;
+
+        // overflow: auto;
+
+    }
+
+    @media (max-width: 991px) {
+        &_inner {
+            padding: 84px 0 20px;
+        }
+
+        &.expanded_sidebar {
+
+            .sidebar {
+                transform: translateX(0);
+            }
+        }
+    }
+
+    @media (max-width: 767px) {
+        &_inner {
+            padding: 76px 0 20px;
+        }
+    }
+}

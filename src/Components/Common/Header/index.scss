@@ -1,0 +1,158 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.header {
+    padding: 8px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    box-shadow: 0px 4px 7px rgba(107, 102, 102, 0.2);
+    @include theme() {
+        // background-color: theme-get("headerBg");
+        color: theme-get('darkBg');
+    }
+
+    .app-header {
+        padding: 0;
+        .common_select {
+            .select__menu {
+                min-width: 200px;
+            }
+        }
+        .theme-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-left: 20px;
+            border: none;
+            position: fixed;
+            right: 40px;
+            bottom: 40px;
+            cursor: pointer;
+            z-index: 100;
+            line-height: 35px;
+
+            @include theme() {
+                background-color: theme-get("darkBg");
+            }
+
+            svg {
+                width: 100%;
+                height: 100%;
+
+                path {
+                    @include theme() {
+                        fill: theme-get('baseBg');
+                    }
+                }
+            }
+
+            &.light {
+                svg {
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+        }
+
+        .navbar-brand {
+            @include theme() {
+                color: theme-get('darkBg');
+            }
+
+        }
+
+        .toggle_btn {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            margin-left: 16px;
+
+            span {
+                width: 32px;
+                height: 3px;
+                border-radius: 10px;
+                margin-bottom: 8px;
+                transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+                transform-origin: left;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                @include theme() {
+                    background-color: theme-get('textClr');
+                }
+
+                @media (max-width: 767px) {
+                    width: 28px;
+                    margin-bottom: 7px;
+                }
+            }
+
+            &.active {
+                span {
+                    &:first-child {
+                        transform: rotate(45deg);
+                    }
+
+                    &:nth-child(2) {
+                        opacity: 0;
+                    }
+
+                    &:last-child {
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 767px) {
+            .btn-style {
+                font-size: 12px;
+                padding: 0 10px;
+                height: 38px;
+            }
+
+            .language_selector {
+                .select__control {
+                    height: 38px;
+                    font-size: 12px;
+                }
+            }
+        }
+
+        @media (max-width: 479px) {
+            .language_selector {
+                .select__control {
+                    .select__single-value {
+                        span {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.sidebar_backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    background-color: rgba(#fff, 0.0);
+}
+
+
+.shimmer.asbutton{
+        animation: placeholderShimmer 12s linear infinite forwards !important;
+}

@@ -1,0 +1,129 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+
+.connect_wallet {
+  .modal-dialog {
+    .modal-content {
+      @include theme() {
+        background-color: theme-get('cardBg');
+        color: theme-get('textClr');
+      }
+
+      .btn-close {
+        @include theme() {
+          filter: theme-get("closeBtn");
+        }
+      }
+
+      .modal-body {
+        .connect_options {
+          ul {
+            padding: 0;
+
+            li {
+              list-style: none;
+              margin-bottom: 10px;
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+
+              button {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                border-radius: 16px;
+                border: 1px solid;
+                padding: 10px;
+
+                @include theme() {
+                  background-color: theme-get('cardBg');
+                    color: theme-get('textClr');
+                    border-color: theme-get('textClr');
+                }
+
+                &:hover {
+                  @include theme() {
+                    background-color: theme-get('walletoptionActive');
+                    border-color: theme-get('textClr');
+                  }
+                }
+
+                span {
+                  margin-right: 10px;
+                  width: 30px;
+                  height: 30px;
+                }
+              }
+
+              .connect_options_details {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                border-radius: 16px;
+                border: 1px solid;
+                padding: 10px;
+
+                @include theme() {
+                  background-color: theme-get('cardBg');
+                  color: theme-get('placeholderClr');
+                  border-color: theme-get('placeholderClr');
+                }
+
+                .spinner-border {
+                  width: 20px;
+                  height: 20px;
+                  border-width: 3px;
+
+                  @include theme() {
+                    border-color: theme-get('placeholderClr');
+                    border-right-color: transparent;
+                  }
+                }
+
+                .btn-style {
+                  max-width: 200px;
+                  width: fit-content;
+                  height: 34px;
+                  font-size: 14px;
+                  border-radius: 10px;
+                  transition: 300ms ease-in-out;
+                  margin-left: 10px;
+                }
+
+                &.danger {
+                  @include theme() {
+                    border-color: theme-get('dangerClr');
+                    color: theme-get('dangerClr');
+                  }
+
+
+                  .spinner-border {
+                    border-color: inherit;
+                    border-right-color: transparent;
+                  }
+
+                  .btn-style {
+                    color: #fff;
+                    border: none;
+
+                    @include theme() {
+                      background-color: theme-get('dangerClr');
+                    }
+
+                    &:hover {
+                      @include theme() {
+                        background-color: theme-get("dangerClrActive");
+                      }
+                    }
+
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,161 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.common_table {
+    color: transparent;
+
+    thead {
+        border: none;
+
+        tr {
+            th {
+                font-size: 14px;
+                white-space: nowrap;
+                padding: 20px 30px;
+                font-weight: 400;
+                border: none;
+
+                @include theme() {
+                    color: theme-get('textClr');
+                    background-color: theme-get('theadBg');
+                }
+
+                .sort_icon {
+                    transform: translateY(-2px);
+                    padding: 4px 10px;
+                    cursor: pointer;
+
+                    svg {
+                        path {
+                            @include theme() {
+                                fill: theme-get("blueBg");
+                            }
+                        }
+                    }
+
+                    &.down_active {
+                        svg {
+                            #Icon_ionic-md-arrow-dropdown {
+                                @include theme() {
+                                    fill: theme-get("textClr");
+                                }
+                            }
+                        }
+                    }
+
+                    &.up_active {
+                        svg {
+                            #Icon_ionic-md-arrow-dropdown-2 {
+                                @include theme() {
+                                    fill: theme-get("textClr");
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &:first-child {
+                    border-radius: 7px 0 0 7px;
+                    padding-left: 20px;
+                }
+
+                &:last-child {
+                    border-radius: 0 7px 7px 0;
+                }
+            }
+        }
+    }
+
+    tbody {
+        td {
+            white-space: nowrap;
+            padding: 15px 30px;
+            font-size: 16px;
+            vertical-align: middle;
+            border-bottom: 0;
+
+            &:first-child {
+                padding-left: 20px;
+            }
+
+            @include theme() {
+                color: theme-get('textClr');
+            }
+
+
+            .coin_detail {
+                display: flex;
+                align-items: center;
+
+                .coin_detail_icon {
+                    flex-shrink: 0;
+
+                    img {
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 50%;
+                    }
+                }
+
+                p {
+                    font-size: 16px;
+                    margin-left: 10px;
+                }
+            }
+
+            .action_box {
+                display: flex;
+                align-items: center;
+
+                .action_btn {
+                    margin-right: 10px;
+                    height: 35px;
+                    padding: 0 20px;
+                    font-size: 14px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+
+        tr {
+            &.no_record {
+                td {
+                    padding: 15px 0;
+
+                    .no_record_box {
+                        border-radius: 15px;
+                        padding: 60px 20px;
+
+                        @include theme() {
+                            background-color: theme-get('noRecordFound');
+                        }
+
+                        svg {
+                            opacity: 0.7;
+
+                            path {
+
+                                @include theme() {
+                                    fill: theme-get('textClr');
+                                }
+                            }
+                        }
+
+                        h4 {
+                            font-size: 16px;
+                            font-weight: 400;
+                            margin-top: 10px;
+                        }
+
+                        @media (max-width: 991px) {
+                            padding: 40px 20px;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

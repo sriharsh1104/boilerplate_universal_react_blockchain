@@ -1,0 +1,57 @@
+@import "./Assets/theme/_var.scss";
+@import "./Assets/theme/_mixins.scss";
+
+body, code {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a,
+span {
+  display: inline-block;
+}
+
+
+.buyBtn {
+  width: 100%;
+  max-width: 100px;
+}
+
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 0;
+}
+
+.green_text {
+  @include theme() {
+    color: theme-get('greenClr') !important;
+  }
+}
+
+.red_text {
+  color: #f00 !important;
+}

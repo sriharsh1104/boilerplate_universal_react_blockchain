@@ -1,0 +1,42 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+
+
+.nav {
+    border-bottom: 1px solid;
+
+    @include theme() {
+        border-bottom-color: theme-get('borderClr');
+    }
+
+    .nav-item {
+        .nav-link {
+            font-size: 18px;
+            border-bottom: 2px solid transparent;
+            transform: translateY(1px);
+
+            @include theme() {
+                color: theme-get('linkClrHover');
+            }
+
+            &.active {
+                @include theme() {
+                    color: theme-get('linkClr');
+                    border-bottom-color: theme-get('linkClr');
+                }
+            }
+
+            @media (max-width: 1199px) {
+                font-size: 16px;
+            }
+
+            @media (max-width: 991px) {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.tab-content {
+    padding: 10px 0;
+}

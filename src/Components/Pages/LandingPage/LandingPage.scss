@@ -1,0 +1,23 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.login_page {
+    min-height: calc(100vh - 78px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &_box {
+        padding: 60px;
+        border-radius: 10px;
+        max-width: 480px;
+        width: 100%;
+        @include theme() {
+            background-color: theme-get('cardBg');
+        }
+        @media (max-width: 1199px) {
+            padding: 40px;
+        }
+        @media (max-width: 991px) {
+            padding: 20px 30px;
+        }
+    }
+}

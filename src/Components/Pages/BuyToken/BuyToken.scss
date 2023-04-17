@@ -1,0 +1,64 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.dashboard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 104px);
+
+    @media (max-width: 767px) {
+        min-height: calc(100vh - 96px);
+    }
+
+    &_box {
+        padding: 60px;
+        border-radius: 10px;
+        max-width: 480px;
+        width: 100%;
+
+        @include theme() {
+            background-color: theme-get('cardBg');
+        }
+
+        .buyBtn {
+            width: 100%;
+            max-width: 100px;
+        }
+
+        @media (max-width: 1199px) {
+            padding: 40px;
+        }
+
+        @media (max-width: 991px) {
+            padding: 20px 30px;
+        }
+    }
+
+    .buy_token {
+        position: relative;
+
+        .SelectValue {
+            position: absolute;
+            right: 9px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            .common_select {
+                .select__control {
+                    height: 38px;
+                }
+            }
+        }
+    }
+
+    .baclanceAmount {
+        @include theme() {
+            color: theme-get('textClr');
+        }
+
+        font-size: 16px;
+        display: block;
+        text-align: left;
+        margin: 10px 0 20px;
+    }
+}

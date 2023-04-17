@@ -1,0 +1,9 @@
+.login_page{
+    display: flex;
+    min-height: calc(100vh - 104px);
+    align-items: center;
+    justify-content: center;
+    @media (max-width: 767px) {
+        min-height: calc(100vh - 96px);
+    }
+}

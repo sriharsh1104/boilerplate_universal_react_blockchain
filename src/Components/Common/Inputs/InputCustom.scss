@@ -1,0 +1,110 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.form-label,
+.form-check-label {
+    font-size: 14px;
+
+    @include theme() {
+        color: theme-get('labelClr');
+    }
+}
+
+.customInput {
+    &_inner {
+        position: relative;
+    }
+
+    .form-control {
+        height: 58px;
+        box-shadow: none;
+        outline: none;
+        border: none;
+        width: 100%;
+        padding: 15px 20px;
+        @include theme() {
+            background-color: theme-get("inputBg");
+            color: theme-get('textClr');
+        }
+
+        &::placeholder {
+            @include theme() {
+                color: theme-get('placeholderClr');
+            }
+        }
+
+        &:focus {
+            box-shadow: none;
+
+            @include theme() {
+                background-color: theme-get("inputBgFocus");
+            }
+        }
+
+        &.passwordInput {
+            padding-right: 60px;
+        }
+
+        @media (max-width: 1199px) {
+            height: 50px;
+        }
+    }
+
+    .eyeIcon {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        display: flex;
+
+        svg {
+            opacity: 0.7;
+
+            path {
+                @include theme() {
+                    fill: theme-get('darkBg')
+                }
+            }
+        }
+    }
+}
+
+.checkbox_input {
+    .form-check {
+        margin-bottom: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+
+        .form-check-input {
+            float: unset;
+            margin: 0;
+            box-shadow: none;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+
+            @include theme() {
+                background-color: theme-get("inputBg");
+            }
+
+            &:checked {
+                @include theme() {
+                    background-color: theme-get('blueBg');
+                    border-color: theme-get('blueBg');
+                }
+            }
+        }
+
+        .form-check-label {
+            line-height: 1;
+            margin-left: 10px;
+        }
+
+        &.form-switch {
+            .form-check-input {
+                width: 46px;
+            }
+        }
+    }
+}

@@ -1,0 +1,89 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    height: calc(100vh - 64px);
+    min-width: 260px;
+    transition: transform 300ms ease-in-out;
+    z-index: 1001;
+
+    @media (max-width: 767px) {
+        height: calc(100vh - 56px);
+        top: 56px;
+    }
+
+    @media (max-width: 379px) {
+        width: 100%;
+    }
+
+    @include theme() {
+        background-color: theme-get('headerBg');
+    }
+
+    &_inner {
+        .nav_link {
+            padding: 0 12px;
+            height: 60px;
+            display: flex;
+            position: relative;
+            align-items: center;
+            font-size: 18px;
+
+            @include theme() {
+                color: theme-get('textClr');
+            }
+
+            @media (max-width: 1439px) {
+                font-size: 16px;
+            }
+
+            @media (max-width: 991px) {
+                font-size: 14px;
+            }
+
+            &::after {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 4px;
+                height: 100%;
+
+                @include theme() {
+                    background-color: theme-get('blueBg');
+                }
+            }
+
+            &_icon {
+                margin-right: 10px;
+
+                svg {
+                    path {
+                        @include theme() {
+                            fill: theme-get('textClr');
+                        }
+                    }
+
+                    @media (max-width: 991px) {
+                        width: 20px;
+                    }
+                }
+            }
+
+            &.active {
+                &::after {
+                    content: "";
+                }
+
+                @include theme() {
+                    background-color: theme-get('sidebarLinkActive');
+                }
+            }
+        }
+    }
+
+    @media (max-width: 991px) {
+        transform: translateX(-100%);
+    }
+}

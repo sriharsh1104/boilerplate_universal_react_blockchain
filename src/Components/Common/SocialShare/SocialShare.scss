@@ -1,0 +1,67 @@
+@import '../../../Assets/theme/_var.scss';
+@import '../../../Assets/theme/_mixins.scss';
+
+.social-container{
+  @include theme(){
+    background-color: theme-get('noRecordFound');
+    }
+     padding: 30px;
+     border-radius: 15px;
+  h2{
+  position: relative;    
+  }
+  .social-links{
+    .link-area{
+      position: relative;
+      margin: 15px 0;
+      .nobg{
+        position: absolute;
+        right: 5px;
+        top: 6px;
+        z-index: 9;
+        border: 0;
+        background-color: transparent;
+        span{
+          svg{
+            @include theme() {
+                fill : theme-get('labelClr');
+              }
+          }
+        }
+      }
+    }
+    ul{
+      display: flex;
+      align-items: center;
+    
+      span{
+        font-size: 18px;
+        margin-right: 15px;
+      }
+      li{
+        margin-right: 15px;
+        a{
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          @include theme() {
+            background-color: theme-get('blueBg');
+          }
+          text-align: center;
+          line-height: 52px;
+          &:hover{
+            @include theme() {
+                background-color: theme-get('blueBgDark');
+              }
+          }
+          i{
+          @include theme() {
+              color: theme-get('whiteClr');
+            }
+            font-size: 22px;
+          }
+        }
+      }
+    }
+  }
+}

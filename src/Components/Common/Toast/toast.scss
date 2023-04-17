@@ -1,0 +1,14 @@
+@import "../../../Assets/theme/_var.scss";
+@import "../../../Assets/theme/_mixins.scss";
+
+.toster-bar{
+  @include theme() {
+      background-color: theme-get('cardBg');
+      color: theme-get('darkBg');
+      border-left: 1px solid #0d9ddc;
+      border-right: 1px solid #0d9ddc;
+    }
+  div{
+    font-size: 16px;
+  }
+}

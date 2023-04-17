@@ -1,0 +1,12 @@
+{
+  "header": {
+    "connect_wallet_text": "Connect Wallet",
+    "login": "Login",
+    "company_name" : "Antier's Boilerplate"
+  },
+  "home" : {
+    "slogan" : "Antier's Boilerplate With React, Typescript, Redux, Web3",
+    "text" : "Decentralizing The World",
+    "bottom_text" : "Since 2016 Through Forward-Thinking Enterprise Blockchain Solutions."
+  }
+}

@@ -1,0 +1,59 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.btn-style {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    padding: 0 15px;
+    border: 1px solid;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 8px;
+
+    @include theme() {
+        background-color: theme-get('blueBg');
+        border-color: theme-get('blueBg');
+        color: theme-get('whiteClr');
+    }
+
+    &:hover {
+        background-color: transparent;
+
+        @include theme() {
+            color: theme-get('textClr');
+        }
+    }
+
+    &.transparent {
+        background-color: transparent;
+        border: none;
+
+        @include theme() {
+            color: theme-get('textClr');
+        }
+    }
+
+    &.bordered {
+        background-color: transparent;
+
+        @include theme() {
+            border-color: theme-get('blueBg');
+            color: theme-get('textClr');
+        }
+    }
+    .onlyIcon {
+        @include theme() {
+            fill: theme-get('whiteClr');
+        }
+        
+    }
+    &:hover {
+        .onlyIcon{
+            @include theme() {
+                fill: theme-get('blueBg');
+            }
+        }
+    }
+}

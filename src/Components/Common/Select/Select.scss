@@ -1,0 +1,169 @@
+@import '../../../Assets/theme/_mixins.scss';
+
+.common_select {
+
+
+    .selector_item {
+        display: flex;
+        align-items: center;
+
+        .selector_icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
+        .selector_name {
+            font-size: 14px;
+        }
+
+    }
+
+    .select__control {
+        cursor: pointer;
+        border: none;
+        font-size: 16px;
+        height: 48px;
+        border-radius: 8px;
+        transition: none;
+        box-shadow: none;
+        border: none;
+
+        .select__input-container {
+            color: white;
+        }
+
+        @include theme() {
+            background-color: theme-get('blueBg');
+        }
+
+        &.select__control--is-focused,
+        &.select__control--menu-is-open {
+            @include theme() {
+                background-color: theme-get('blueBgDark');
+            }
+        }
+
+        .select__placeholder {
+            color: white;
+        }
+
+        .select__value-container {
+            padding-right: 0;
+        }
+
+        .select__single-value {
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .select__indicator-separator {
+            display: none;
+        }
+
+        .select__indicator {
+
+            svg {
+                fill: #fff;
+            }
+        }
+    }
+
+    .select__menu {
+        width: 100%;
+        right: 0;
+        left: unset;
+
+        @include theme() {
+            background-color: theme-get('headerBg');
+            color: theme-get('darkBg');
+        }
+
+        .select__menu-notice {
+            font-size: 14px;
+
+            @include theme() {
+                color: theme-get('textClr');
+            }
+        }
+
+        .select__menu-list {
+            .select__option {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 16px;
+
+                &.select__option--is-selected {
+                    @include theme() {
+                        background-color: theme-get('cardBg');
+                        color: theme-get('textClr');
+                    }
+                }
+
+                &.select__option--is-focused {
+                    background-color: transparent;
+                }
+
+                &:hover {
+
+                    @include theme() {
+                        background-color: theme-get('cardBg');
+                    }
+                }
+
+            }
+        }
+    }
+
+    &.input_select {
+        .select__control {
+            height: 58px;
+
+            @media (max-width: 1199px) {
+                height: 50px;
+            }
+
+            .select__placeholder {
+                @include theme() {
+                    color: theme-get('placeholderClr');
+                }
+            }
+
+            .select__input-container {
+                @include theme() {
+                    color: theme-get('textClr');
+                }
+            }
+
+            @include theme() {
+                background-color: theme-get("inputBg");
+            }
+
+            .select__indicator {
+                svg {
+                    @include theme() {
+                        fill: theme-get('textClr');
+                    }
+                }
+            }
+
+            .select__single-value {
+                @include theme() {
+                    color: theme-get('textClr');
+                }
+            }
+
+            &.select__control--is-focused,
+            &.select__control--menu-is-open {
+                @include theme() {
+                    background-color: theme-get("inputBgFocus");
+                }
+            }
+        }
+    }
+}
