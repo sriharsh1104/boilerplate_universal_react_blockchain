@@ -1,4 +1,4 @@
-import Web3 from "web3";
+import JSBI from "jsbi";
 
 /**CUTMIZE ADDRESS FOR SHOW */
 export const custmizeAddress = (address: string) => {
@@ -7,36 +7,165 @@ export const custmizeAddress = (address: string) => {
     return firstFive + "..." + lastFour;
 };
 
-/**CONVERT NUMBER WITH DECIMALS FOR CONTRACT CALL */
-export const convertWithDecimal = (value, decimal) => {
-    if (value > 0) {
-        if (isInt(value)) {
-            value = parseInt(value);
-            // value = BigNumber(value).multiply(decimal);
-            value = Web3.utils.toBN(value).mul(Web3.utils.toBN(decimal)).toString()
-
-        } else {
-            value = value * decimal;
-            value = toFixed(value);
-            value = parseInt(value.toString().split(".")[0]);
-            value = toFixed(value);
-            // value = BigNumber(value);
-            value = Web3.utils.toBN(value).toString()
-
+function numberToString(arg: any) {
+    if (typeof arg === 'string') {
+        if (!arg.match(/^-?[0-9.]+$/)) {
+            throw new Error('while converting number to string, invalid number value \'' + arg + '\', should be a number matching (^-?[0-9.]+).');
         }
-        return value.toString();
-    } else {
-        return 0;
+        return arg;
+    } else if (typeof arg === 'number') {
+        return String(arg);
+    } else if (typeof arg === 'object' && arg.toString && (arg.toTwos || arg.dividedToIntegerBy)) {
+        if (arg.toPrecision) {
+            return String(arg.toPrecision());
+        } else {
+            // eslint-disable-line
+            return arg.toString(10);
+        }
     }
+    throw new Error('while converting number to string, invalid number value \'' + arg + '\' type ' + typeof arg + '.');
+}
+
+// Function to convert into wei
+function toWei(input: any, unit: any) {
+    var ether = numberToString(input); // eslint-disable-line
+    var base = unit
+    var baseLength = base.length - 1 || 1;
+    if (ether === '.') {
+        throw new Error('[ethjs-unit] while converting number ' + input + ' to wei, invalid value');
+    }
+
+    // Is it negative?
+    var negative = ether.substring(0, 1) === "-";
+
+    if (negative) {
+        ether = ether.substring(1);
+    }
+    // Split it into a whole and fractional part
+    var comps = ether.split('.'); // eslint-disable-line
+    if (comps.length > 2) {
+        throw new Error('[ethjs-unit] while converting number ' + input + ' to wei,  too many decimal points');
+    }
+    var whole = comps[0],
+        fraction = comps[1]; // eslint-disable-line
+    if (!whole) {
+        whole = '0';
+    }
+    if (!fraction) {
+        fraction = '0';
+    }
+    if (fraction.length > baseLength) {
+        throw new Error('[ethjs-unit] while converting number ' + input + ' to wei, too many decimal places');
+    }
+    
+    while (fraction.length < baseLength) {
+        fraction += '0';
+    }
+    
+    if (!parseInt(whole)) {
+        return fraction.replace(/^0*(?=[1-9])/g, '');
+    }
+
+    
+    if (negative) {
+        return "-" + whole + fraction;
+    }
+
+    return whole + fraction
+}
+
+function fromWei(input: any, unit: any) {
+    if(!input) return '0';
+    
+    let str = '';
+    
+    if(Math.sign(input) !== Math.sign(unit)) str += '-';
+    
+    const numer = Math.abs(input)
+    const denom = Math.abs(unit)
+    
+    str += Math.floor(numer/denom);
+    let rem = numer%denom;
+    if(!rem) return str;
+    str += '.'
+    
+    const map = new Map();
+    
+    while(rem !== 0) {
+        map.set(rem, str.length);
+        
+        rem *= 10;
+        str += Math.floor(rem/denom);
+        rem %= denom
+        
+        if(map.has(rem)) {
+            const idx = map.get(rem);
+            return str.slice(0, idx) + `(${str.slice(idx)})`; 
+        }
+    }
+    return str;
 };
 
+
+/** Divide with Decimal*/
+export const divideWithDecimal = (value: any, decimal: any) => {
+    const decimalBigN = JSBI.BigInt(decimal)
+    const convertedDecimal = JSBI.exponentiate(JSBI.BigInt(10), decimalBigN);
+    return fromWei(value, String(convertedDecimal))
+};
+
+/**CONVERT NUMBER WITH DECIMALS FOR CONTRACT CALL */
+export const convertWithDecimal = (value: any, decimal: any) => {
+    const decimalBigN = JSBI.BigInt(decimal)
+    const convertedDecimal = JSBI.exponentiate(JSBI.BigInt(10), decimalBigN);
+    return toWei(value, String(convertedDecimal))
+};
+
+
+/** Multiply with big numbers */
+export const multiplyTwoBigDigits = (valueOne: any, valueTwo: any) => {
+    const a = JSBI.BigInt(valueOne)
+    const b = JSBI.BigInt(valueTwo)
+    const result = JSBI.multiply(a, b);
+    return String(result)
+};
+
+export const multiplyBigDigitsWithDecimals = (valueOne: string, valueTwo: string) => {
+    let a: any;
+    let b: any;
+    let decimalLengthA: any = 0;
+    let decimalLengthB: any = 0;
+    if (valueOne.includes(".")) {
+        a = convertWithDecimal(valueOne, valueOne.split(".")[1].length)
+        decimalLengthA = valueOne.split(".")[1].length
+    } else {
+        a = valueOne
+    }
+    if (valueTwo.includes(".")) {
+        b = convertWithDecimal(valueTwo, valueTwo.split(".")[1].length)
+        decimalLengthB = valueTwo.split(".")[1].length
+    } else {
+        b = valueTwo
+    }
+    let decimalLength = decimalLengthA + decimalLengthB
+    let result = multiplyTwoBigDigits(a, b)
+    
+    if (result.substring(0, result.length - decimalLength).length && result.substring(result.length - decimalLength).length) {
+        result = result.substring(0, result.length - decimalLength) + "." + (result.substring(result.length - decimalLength));
+    } else if (!result.substring(0, result.length - decimalLength).length) {
+        // eslint-disable-next-line
+        result = "0" + "." + (result.substring(result.length - decimalLength));
+    }
+    return result
+}
+
 /**CHECK STRING IS NUMBER */
-const isInt = (n) => {
+export const isInt = (n) => {
     return n % 1 === 0;
 };
 
 /**REMOVE e FORM BIG NUMBER */
-const toFixed = (x) => {
+export const toFixed = (x) => {
     if (Math.abs(x) < 1.0) {
         var e = parseInt(x.toString().split("e-")[1]);
         if (e) {

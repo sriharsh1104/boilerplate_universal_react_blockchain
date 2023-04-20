@@ -5,7 +5,7 @@ import ConnectWallet from "../ConnectWallet";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 import cookies from "js-cookie";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import ButtonCommon from "../Button/ButtonCustom";
 import { useNavigate } from "react-router-dom";
 import IndiaIcon from "../../../Assets/Images/Icons/flags/india.png";
@@ -24,9 +24,6 @@ import useCopyClipboard from "../../../hooks/useCopyToClipboard";
 import CustomSelect from "../Select/Select";
 import toaster from "../Toast";
 import LoadingBar from "react-top-loading-bar";
-import { Web3Button } from "@web3modal/react";
-import { useAccount} from "wagmi";
-import { setWalletAddress ,setWalletType} from "../../../../src/Redux/Slices/user.slice";
 
 const language = [
   {
@@ -83,11 +80,6 @@ const Header = ({
 
   const dispatch = useDispatch();
 
-  const address = useAccount();
-
-  dispatch(setWalletAddress(address.address));
-  dispatch(setWalletType("metamask"));
-
   useEffect(() => {
     if (!theme) {
       document.body.classList.remove("lightTheme");
@@ -128,7 +120,7 @@ const Header = ({
     let result: any = await fetch(
       "https://jsonplaceholder.typicode.com/photos"
     );
-    result = await result.json();
+    await result.json();
     setProgress(70);
     setProgress(100);
     afterLogin ? navigate("/auth/dashboard") : navigate("/");
@@ -217,7 +209,7 @@ const Header = ({
                 <Shimmer width={56} height={48} className="mx-3 asbutton" />
               )}
 
-              {false ? <Shimmer height={38} /> : <Web3Button />}
+              {false ? <Shimmer height={38} /> : <ConnectWallet />}
               <CustomSelect
                 defaultValue={selectedOption}
                 onChange={(value: { code: string | undefined }) => {

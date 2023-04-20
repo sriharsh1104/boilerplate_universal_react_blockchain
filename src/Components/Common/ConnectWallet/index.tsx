@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { Col, Row, Modal, Button } from "react-bootstrap";
+import { Col, Row, Modal } from "react-bootstrap";
 import ButtonCommon from "../Button/ButtonCustom";
 import "./index.scss";
-import {
-  connectmetamask,
-  disconnectWallet,
-} from "../../../Redux/Actions/user.action";
+import { connectmetamask } from "../../../Redux/Actions/user.action";
 import { custmizeAddress } from "../../../Services/common.service";
 import { useTranslation } from "react-i18next";
 import Spinner from "react-bootstrap/Spinner";
+import WagmiWallet from "../WagmiWallet/WagmiWallet";
 
 /**CONNECT WALLET MODAL */
 const ConnectWallet = () => {
@@ -25,7 +23,6 @@ const ConnectWallet = () => {
   const walletAddress = useSelector((state: any) => state?.user?.walletAddress);
 
   const handleClose = () => setShow(false);
-
   useEffect(() => {
     setShow(false);
   }, [walletAddress]);
@@ -49,20 +46,7 @@ const ConnectWallet = () => {
       setConnectionStatus({ wallet, status: "error" });
     }
   };
-const walletConnect = async (wallet1) => {
-  setConnectionStatus({ wallet1, status: "pending" });
-  try {
-    if (wallet1 === "walletConnect") {
-      setTimeout(() => {
-        dispatch(connectmetamask());
-        setConnectionStatus({ wallet1, status: "account" });
-      }, 2000);
-    }
-  } catch (error) {
-    setConnectionStatus({ wallet1, status: "error" });
-  }
-};
-  console.log("status", connectionStatus);
+
   return (
     <div className="me-3">
       <ButtonCommon
@@ -122,7 +106,7 @@ const walletConnect = async (wallet1) => {
                     </li>
                   )}
                   <li>
-                    <Button onClick={() => connectToWallet("MetaMasK")}>
+                    {/* <Button onClick={() => connectToWallet("MetaMasK")}>
                       <span>
                         <img
                           src={
@@ -132,30 +116,18 @@ const walletConnect = async (wallet1) => {
                         />
                       </span>{" "}
                       MetaMask{" "}
-                      {/* {connectionStatus?.wallet === 'MetaMasK' && connectionStatus?.status === 'pending' ? <Spinner animation="border" variant="light" /> : ""} */}
-                    </Button>
+                    </Button> */}
                   </li>
-                  <Button onClick={() => walletConnect("walletConnect")}>
-                    <span>
-                      <img
-                        // src={
-                        //   "https://cdn.iconscout.com/icon/free/png-256/metamask-2728406-2261817.png"
-                        // }
-                        alt=""
-                      />
-                    </span>{" "}
-                    WalletConnect{" "}
-                    {/* {connectionStatus?.wallet === 'MetaMasK' && connectionStatus?.status === 'pending' ? <Spinner animation="border" variant="light" /> : ""} */}
-                  </Button>
+                  <li>
+                    {/* Connect wallet Function */}
+                    <WagmiWallet />
+                  </li>
                 </ul>
               )}
               <div className="add_new text-center">
                 {walletAddress ? (
-                  <ButtonCommon
-                    className="btn-danger"
-                    onClick={() => dispatch(disconnectWallet())}
-                    title="Disconnect"
-                  />
+                  // Disconnect Wallet Function
+                  <WagmiWallet />
                 ) : (
                   ""
                 )}

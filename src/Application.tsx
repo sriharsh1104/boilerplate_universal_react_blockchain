@@ -20,6 +20,7 @@ import DesignUi from "./Components/Pages/DesignUi/DesignUi";
 import AuthLogin from "./Components/Pages/AuthLogin/AuthLogin";
 import BuyToken from "./Components/Pages/BuyToken/BuyToken";
 import { connectmetamask } from "./Redux/Actions/user.action";
+import abi from "./Abi/DynamicABI.json";
 
 const Application: React.FC = () => {
   /**CREATE DISPATCH OBJECT */
@@ -33,10 +34,10 @@ const Application: React.FC = () => {
     /**FUNCTION FOR SET DECIMALS ON PAGE LOAD */
     const getDecimals = async () => {
       let getUsdtDecimals: any = await dispatch(
-        callContractGetMethod("decimals", [], "dynamic", false, USDT_ADDRESS)
+        callContractGetMethod("decimals", [], abi, false, USDT_ADDRESS)
       );
-      dispatch(usdtDecimals(10 ** getUsdtDecimals));
-      dispatch(bnbDecimals(10 ** 18));
+      dispatch(usdtDecimals(getUsdtDecimals));
+      dispatch(bnbDecimals(18));
     };
 
     getDecimals();

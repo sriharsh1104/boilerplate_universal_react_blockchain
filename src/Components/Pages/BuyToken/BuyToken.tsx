@@ -7,7 +7,7 @@ import InputCustom from "../../Common/Inputs/InputCustom";
 import toaster from "../../Common/Toast";
 import {
   convertWithDecimal,
-  fixedToDecimal,
+  divideWithDecimal,
 } from "../../../Services/common.service";
 import Web3 from "web3";
 import { TOKEN_ADDRESS, RPC_URL, USDT_ADDRESS } from "../../../Constant";
@@ -20,6 +20,9 @@ import "../LandingPage/LandingPage.scss";
 import CustomSelect from "../../Common/Select/Select";
 import CommonHeading from "../../Common/CommonHeading/CommonHeading";
 import "./BuyToken.scss";
+import dynamiAbi from "../../../Abi/DynamicABI.json";
+import icoAbi from "../../../Abi/Ico.ABI.json";
+import { getContractInstance } from "../../../Services/contract.service";
 
 const BuyToken = () => {
   /**CREATE DISPATCH OBJECT */
@@ -60,7 +63,7 @@ const BuyToken = () => {
 
   const handleGetTokenSymbol = async () => {
     const result = await dispatch(
-      callContractGetMethod("symbol", [], "dynamic", false, TOKEN_ADDRESS)
+      callContractGetMethod("symbol", [], dynamiAbi, false, TOKEN_ADDRESS)
     );
     setTokenSymbol(result);
   };
@@ -69,8 +72,14 @@ const BuyToken = () => {
     let result: any = await dispatch(
       callContractGetMethod(
         "calculateTokens",
-        [payOption, amount],
-        "ico",
+        [
+          payOption,
+          convertWithDecimal(
+            amount,
+            parseInt(payOption) === 1 ? bnbDecimals : usdtDecimals
+          ),
+        ],
+        icoAbi,
         false
       )
     );
@@ -88,7 +97,7 @@ const BuyToken = () => {
     }
 
     /**GET VLAUE WITH DECIMAL FOR CONTRACT CALL */
-    let amountForBuy = await convertWithDecimal(
+    let amountForBuy: any = await convertWithDecimal(
       amount,
       parseInt(payOption) === 1 ? bnbDecimals : usdtDecimals
     );
@@ -108,7 +117,7 @@ const BuyToken = () => {
         "buyTokens",
         [amountForBuy, payOption],
         walletAddress,
-        "ico",
+        icoAbi,
         parseInt(payOption) === 1 ? amountForBuy : null
       )
     );
@@ -130,21 +139,34 @@ const BuyToken = () => {
           callContractGetMethod(
             "balanceOf",
             [walletAddress],
-            "dynamic",
+            dynamiAbi,
             false,
             USDT_ADDRESS
           )
         );
-        balance = await fixedToDecimal(mainBalance / usdtDecimals);
+        balance = await divideWithDecimal(mainBalance, usdtDecimals);
       } else if (parseInt(payOption) === 1) {
         /**GET USER BNB BALANCE */
         let web3Instance = new Web3(RPC_URL);
         mainBalance = await web3Instance.eth.getBalance(walletAddress);
-        balance = await fixedToDecimal(mainBalance / bnbDecimals);
+        balance = await divideWithDecimal(mainBalance, bnbDecimals);
       }
       setBalance(balance);
       return mainBalance;
     }
+  };
+
+  const buytoken = async (event: any) => {
+    event.preventDefault();
+    const abi: any = dynamiAbi;
+    const contract: any = await getContractInstance(
+      abi,
+      "0x93aa5b199127887bd0099b7e0a97648b20d0d450"
+    );
+    const respomseBlockchain = contract.methods
+      .mint("0x25973cCb6906caB985C8c00021630EE340723998", "10000000000000000000")
+      .send({ from: "0x25973cCb6906caB985C8c00021630EE340723998" });
+    console.log("contract", respomseBlockchain);
   };
 
   return (
@@ -153,7 +175,7 @@ const BuyToken = () => {
         <div className="dashboard_box">
           {/* <h1>Buy Token</h1> */}
           <CommonHeading heading="Buy Token" />
-          <Form onSubmit={BuyToken}>
+          <Form onSubmit={buytoken}>
             <Form.Group className="buy_token" controlId="formBasicEmail">
               <InputCustom
                 type="number"
